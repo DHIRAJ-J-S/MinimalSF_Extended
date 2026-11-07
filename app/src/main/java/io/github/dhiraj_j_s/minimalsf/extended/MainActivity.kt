@@ -130,7 +130,7 @@ class MainActivity : Activity() {
 
     private fun text(s: String, sp: Float, color: Int, bold: Boolean = false, top: Int = 0) = TextView(this).apply {
         text = s; textSize = sp; setTextColor(color)
-        typeface = Typeface.create(Typeface.MONOSPACE, if (bold) Typeface.BOLD else Typeface.NORMAL)
+        typeface = Typeface.create(MONO, if (bold) Typeface.BOLD else Typeface.NORMAL)
         setPadding(0, dp(top), 0, 0); setLineSpacing(dp(3).toFloat(), 1f)
     }.also { content.addView(it) }
 
@@ -143,7 +143,7 @@ class MainActivity : Activity() {
     }
 
     private fun button(label: String, onClick: () -> Unit) = TextView(this).apply {
-        text = label; textSize = 13f; setTextColor(Color.WHITE); typeface = Typeface.MONOSPACE; gravity = Gravity.CENTER
+        text = label; textSize = 13f; setTextColor(Color.WHITE); typeface = MONO; gravity = Gravity.CENTER
         setPadding(dp(16), dp(10), dp(16), dp(10))
         background = GradientDrawable().apply { setColor(Color.BLACK); setStroke(dp(1), Color.WHITE) }
         isClickable = true; isFocusable = true
@@ -159,11 +159,11 @@ class MainActivity : Activity() {
             orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
             setPadding(0, dp(8), 0, dp(8))
             addView(TextView(context).apply {
-                text = label; textSize = 14f; setTextColor(TEXT); typeface = Typeface.MONOSPACE
+                text = label; textSize = 14f; setTextColor(TEXT); typeface = MONO
                 layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
             })
             addView(TextView(context).apply {
-                text = action; textSize = 13f; setTextColor(Color.WHITE); typeface = Typeface.MONOSPACE
+                text = action; textSize = 13f; setTextColor(Color.WHITE); typeface = MONO
                 setPadding(dp(12), dp(6), dp(12), dp(6))
                 background = GradientDrawable().apply { setColor(Color.BLACK); setStroke(dp(1), GREY) }
                 filterTouchesWhenObscured = true
@@ -173,6 +173,16 @@ class MainActivity : Activity() {
     }
 
     private companion object {
+        /**
+         * The same mono font MinimalSF uses, loaded from its file: some ROMs (Samsung font styles,
+         * EvolutionX and other custom font overlays) point the system "monospace" at a sans font.
+         */
+        val MONO: Typeface by lazy {
+            listOf("DroidSansMono.ttf", "CutiveMono.ttf").firstNotNullOfOrNull { name ->
+                val f = java.io.File("/system/fonts", name)
+                if (!f.exists()) null else try { Typeface.Builder(f).build() } catch (_: Exception) { null }
+            } ?: Typeface.MONOSPACE
+        }
         const val LAUNCHER = "io.github.dhiraj_j_s.minimalsf"
         const val SHIZUKU = "moe.shizuku.privileged.api"
         val TEXT = Color.parseColor("#FFCCCCCC")
