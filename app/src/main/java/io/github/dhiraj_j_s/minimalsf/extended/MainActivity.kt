@@ -92,7 +92,7 @@ class MainActivity : Activity() {
             "force stop" to "close the app completely",
             "clear data" to "reset the app, like a fresh install (asks first)",
             "clear cache" to "delete the app's temporary files (root, or Shizuku started with root)",
-            "freeze" to "disable the app without uninstalling it"
+            "freeze" to "disable the app without uninstalling it (files and data are kept)"
         ).forEach { (name, what) -> text("$name - $what", 13f, TEXT, top = 6) }
 
         section("frozen apps")

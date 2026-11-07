@@ -39,7 +39,7 @@ object Actions {
             "{app} will be reset like a fresh install: its settings, accounts and files are deleted. this can't be undone.",
             "clear data")),
         Def(FREEZE, "freeze", "ic_freeze", Triple("freeze {app}?",
-            "it stops running and disappears from the launcher until you unfreeze it in the MinimalSF Extended app.",
+            "it stops running and disappears from the launcher until you unfreeze it in the MinimalSF Extended app. its files and data are kept.",
             "freeze"))
     )
 
