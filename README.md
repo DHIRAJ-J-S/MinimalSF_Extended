@@ -10,6 +10,7 @@ A tiny plugin that adds force stop, clear data, freeze and more to MinimalSF's l
 [![Latest release](https://img.shields.io/github/v/release/DHIRAJ-J-S/MinimalSF_Extended?label=release)](https://github.com/DHIRAJ-J-S/MinimalSF_Extended/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 ![Android 8.0+](https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white)
+[![VirusTotal: v1.0, 0 detections](https://img.shields.io/badge/VirusTotal-v1.0%20%C2%B7%200%20detections-brightgreen?logo=virustotal&logoColor=white)](https://www.virustotal.com/gui/file/236abe8aec431c50a777f2c874a6a54a4a67f934572be2496be781046eb52d35/detection)
 
 ---
 
@@ -61,6 +62,7 @@ Shizuku is used whenever it's running; root mode is the fallback. The menu only 
 - **Off limits:** the system, Settings, Shizuku and MinimalSF can't be stopped, cleared or frozen.
 - **No tapjacking:** buttons ignore taps while another app draws over the screen.
 - 🚫 **No internet permission**, no ads, no tracking, backups off.
+- 🧪 **Scanned on [VirusTotal](https://www.virustotal.com/gui/file/236abe8aec431c50a777f2c874a6a54a4a67f934572be2496be781046eb52d35/detection):** 0 detections (v1.0).
 
 ---
 
