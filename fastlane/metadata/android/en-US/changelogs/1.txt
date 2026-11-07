@@ -1,0 +1,1 @@
+First release: open in freeform, force stop, clear cache (root), clear data and freeze for the MinimalSF launcher, through Shizuku. Frozen apps can be unfrozen from the app's screen.

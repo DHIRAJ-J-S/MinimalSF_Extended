@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_desc">Lets MinimalSF ask MinimalSF Extended to force stop, clear, freeze or open apps in a window.</string>
+</resources>
