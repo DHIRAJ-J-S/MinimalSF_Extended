@@ -29,9 +29,12 @@ class ActionsProvider : ContentProvider() {
         val state = Shell.state()
         val shizuku = state == Shell.State.READY || state == Shell.State.NO_PERMISSION || Root.enabled(ctx)
         val root = Shell.canClearCache(ctx)
-        Actions.MENU.filter { (!it.needsShizuku || shizuku) && (!it.rootOnly || root) }.forEach { d ->
+        val usable = Actions.MENU.filter { (!it.needsShizuku || shizuku) && (!it.rootOnly || root) }
+        usable.forEach { d ->
             cursor.addRow(arrayOf(d.id, d.label, d.icon, d.confirm?.first, d.confirm?.second, d.confirm?.third, API))
         }
+        // Nothing works yet: offer the way to set it up instead of an empty menu
+        if (usable.isEmpty()) cursor.addRow(arrayOf(Actions.SETUP, "set up Shizuku or root…", "ic_setup", null, null, null, API))
         return cursor
     }
 

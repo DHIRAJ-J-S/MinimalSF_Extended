@@ -1,14 +1,9 @@
 package io.github.dhiraj_j_s.minimalsf.extended
 
 import android.app.Activity
-import android.app.ActivityOptions
-import android.content.ComponentName
 import android.content.Intent
-import android.content.pm.LauncherApps
 import android.content.pm.PackageManager
-import android.graphics.Rect
 import android.os.Bundle
-import android.os.UserHandle
 import android.text.format.Formatter
 import android.widget.Toast
 import rikka.shizuku.Shizuku
@@ -17,7 +12,7 @@ import rikka.shizuku.Shizuku
  * Invisible screen MinimalSF opens to run one action. Only apps signed with the same key as this
  * plugin can open it (the signature permission on it in the manifest), so only MinimalSF can.
  * It runs the action through Shizuku (asking for its permission first if needed) or root mode, shows a
- * short message and closes. Freeform also works without either.
+ * short message and closes.
  */
 class ActionActivity : Activity() {
 
@@ -32,14 +27,13 @@ class ActionActivity : Activity() {
         val label = intent.getStringExtra("label")?.take(60) ?: pkg
 
         if (!Guard.intact(this)) return done("MinimalSF Extended is locked: its permission isn't set up as expected")
+        if (intent.getStringExtra("action") == Actions.SETUP) return openSetup(null)
         if (!Actions.validPackage(pkg)) return done("invalid app")
         Actions.refusal(action, pkg)?.let { return done(it) }
         if (action != Actions.CLEAR_CACHE && Actions.argv(action, pkg, component, user) == null) return done("unknown action")
 
         // Shizuku if it's running and allowed, otherwise root mode if it's turned on
         Shell.backend(this)?.let { return perform(it, action, pkg, component, user, label) }
-        // Freeform doesn't need either: Android's own launch-in-a-window option is used
-        if (action == Actions.FREEFORM) return openFreeform(component, user)
 
         when (Shell.state()) {
             Shell.State.NOT_RUNNING -> openSetup("start Shizuku, or turn on root mode")
@@ -91,23 +85,7 @@ class ActionActivity : Activity() {
         }
     }
 
-    /** Opens the app in a window without Shizuku: launch bounds, which phones with freeform support honour. */
-    private fun openFreeform(component: String?, user: Int) {
-        val cn = component?.let { ComponentName.unflattenFromString(it) } ?: return done("unknown app")
-        val dm = resources.displayMetrics
-        val bounds = Rect(dm.widthPixels / 10, dm.heightPixels / 8, dm.widthPixels * 9 / 10, dm.heightPixels * 5 / 8)
-        val options = ActivityOptions.makeBasic().setLaunchBounds(bounds).toBundle()
-        try {
-            // LauncherApps also reaches work profile and dual apps; a user id maps to its handle via its uid range
-            getSystemService(LauncherApps::class.java).startMainActivity(cn, UserHandle.getUserHandleForUid(user * 100_000), bounds, options)
-            done(if (packageManager.hasSystemFeature(PackageManager.FEATURE_FREEFORM_WINDOW_MANAGEMENT)) null
-                 else "this phone has no freeform windows - turn them on in developer options")
-        } catch (_: Exception) {
-            done("couldn't open in a window")
-        }
-    }
-
-    private fun openSetup(message: String) {
+    private fun openSetup(message: String?) {
         startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         done(message)
     }

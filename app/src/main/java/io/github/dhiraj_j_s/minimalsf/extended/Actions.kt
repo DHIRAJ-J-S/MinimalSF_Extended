@@ -19,6 +19,8 @@ object Actions {
     const val FREEZE = "freeze"
     const val UNFREEZE = "unfreeze"
     const val FREEFORM = "freeform"
+    /** Shown alone when neither Shizuku nor root mode is available: opens the plugin's setup screen. */
+    const val SETUP = "setup"
 
     /**
      * One entry in MinimalSF's "extended…" menu. MinimalSF reads these from [ActionsProvider] each time
@@ -30,8 +32,7 @@ object Actions {
 
     /** The menu, in order. Add new actions here (and their command in [argv]). */
     val MENU = listOf(
-        // Works without Shizuku too, through Android's own launch-in-a-window option
-        Def(FREEFORM, "open in freeform", "ic_window", needsShizuku = false),
+        Def(FREEFORM, "open in freeform", "ic_window"),
         Def(FORCE_STOP, "force stop", "ic_stop"),
         Def(CLEAR_CACHE, "clear cache", "ic_sweep", rootOnly = true),
         Def(CLEAR_DATA, "clear data", "ic_clear_data", Triple("clear data?",

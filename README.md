@@ -6,7 +6,7 @@ With it installed, long press an app in MinimalSF and tap **extended…**:
 
 | Action | What it does |
 |---|---|
-| Open in freeform | Opens the app in a floating window (works without Shizuku or root) |
+| Open in freeform | Opens the app in a floating window |
 | Force stop | Closes the app completely |
 | Clear cache | Deletes the app's temporary files (needs root: root mode, or Shizuku started with root) |
 | Clear data | Resets the app like a fresh install (asks first) |
@@ -14,12 +14,14 @@ With it installed, long press an app in MinimalSF and tap **extended…**:
 
 ## Setup
 
-Install MinimalSF Extended. With nothing else, **open in freeform** already works. For the other actions, use one of:
+Install MinimalSF Extended, then give it rights in one of two ways:
 
 - **Shizuku**, or a fork of it, or **Sui** (the Magisk / KernelSU module): start it, open MinimalSF Extended, tap **allow** and allow it in Shizuku's prompt.
 - **Root mode**, on rooted phones (Magisk, KernelSU, APatch...): open MinimalSF Extended and tap **turn on** under root mode; your root app asks first. Shizuku is still used first whenever it's running.
 
-Then in MinimalSF (1.3.2 or newer), long press any app → **extended…**. The menu only shows what works right now, and new actions arrive with plugin updates alone.
+Then in MinimalSF (1.3.2 or newer), long press any app → **extended…**. The menu only shows what works right now (without Shizuku or root it offers to set them up), and new actions arrive with plugin updates alone.
+
+Freeform opened a real window on One UI (Samsung) through Shizuku, and on EvolutionX (Android 15) through root, both without the "freeform windows" developer option. Some other ROMs may need that option turned on.
 
 The plugin's screen shows whether Shizuku is ready and lists the apps you froze, since frozen apps disappear from the launcher.
 

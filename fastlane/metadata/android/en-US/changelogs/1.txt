@@ -1,1 +1,1 @@
-First release: open in freeform (no Shizuku needed), plus force stop, clear cache (root), clear data and freeze through Shizuku, Sui or root mode. Frozen apps can be unfrozen from the app's screen.
+First release: open in freeform, force stop, clear cache (root), clear data and freeze from MinimalSF's long press menu, through Shizuku, Sui or root mode. Frozen apps can be unfrozen from the app's screen.

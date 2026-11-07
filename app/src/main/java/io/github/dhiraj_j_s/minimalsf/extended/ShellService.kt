@@ -39,8 +39,11 @@ class ShellService() : IShellService.Stub() {
         // Running as root, so never follow symlinks: an app could link its cache folder (or something in
         // it) to system files. du and find don't follow links by default, and a cache folder that is
         // itself a link is left alone. Java's File walking would follow them.
-        val kb = exec(listOf("du", "-sk") + dirs).lines().sumOf { it.substringBefore('\t').trim().toLongOrNull() ?: 0L }
-        dirs.forEach { exec(listOf("find", it, "-mindepth", "1", "-delete")) }
+        // nsenter: work in the system-wide view of storage. A process started for an app may only see that
+        // app's own data folders (app data isolation); harmless when the view is already system-wide.
+        val ns = listOf("nsenter", "-t", "1", "-m", "--")
+        val kb = exec(ns + listOf("du", "-sk") + dirs).lines().sumOf { it.substringBefore('\t').trim().toLongOrNull() ?: 0L }
+        dirs.forEach { exec(ns + listOf("find", it, "-mindepth", "1", "-delete")) }
         return "0\n${kb * 1024}"
     }
 

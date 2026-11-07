@@ -57,8 +57,11 @@ object Root : Backend {
         if (!Actions.validPackage(pkg) || user < 0) { done(1, "invalid app"); return }
         val dirs = listOf("/data/user/$user/$pkg/cache", "/data/user/$user/$pkg/code_cache",
             "/data/media/$user/Android/data/$pkg/cache").joinToString(" ") { quote(it) }
-        // Size first (in KB), then delete what's inside the folders but keep the folders themselves
-        async({ su("du -sk $dirs 2>/dev/null; find $dirs -mindepth 1 -delete 2>/dev/null; true") }) { code, out ->
+        // su started from an app runs in that app's view of the storage, where Android hides other apps'
+        // data folders (app data isolation). nsenter -t 1 -m switches to the system-wide view first.
+        // Size first (in KB), then delete what's inside the folders but keep the folders themselves.
+        val ns = "nsenter -t 1 -m --"
+        async({ su("$ns du -sk $dirs 2>/dev/null; $ns find $dirs -mindepth 1 -delete 2>/dev/null; true") }) { code, out ->
             val kb = out.lines().sumOf { it.substringBefore('\t').trim().toLongOrNull() ?: 0L }
             if (code == 0) done(0, (kb * 1024).toString()) else done(code, out)
         }

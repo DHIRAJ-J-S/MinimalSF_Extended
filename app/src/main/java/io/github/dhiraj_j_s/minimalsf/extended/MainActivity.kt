@@ -58,7 +58,7 @@ class MainActivity : Activity() {
         when (Shell.state()) {
             Shell.State.NOT_RUNNING -> {
                 // Any Shizuku works: the official app, a fork, or Sui. Only the button needs a known app.
-                text("not running - optional: without Shizuku or root mode only open in freeform works. start Shizuku (or a fork), or use Sui, for the rest.", 14f, RED)
+                text("not running - start Shizuku (or a fork), or use Sui. on a rooted phone you can use root mode below instead.", 14f, RED)
                 if (shizukuInstalled()) button("open Shizuku") { openShizuku() }
             }
             Shell.State.OUTDATED -> text("too old - update Shizuku", 14f, RED)
@@ -86,10 +86,9 @@ class MainActivity : Activity() {
         text(if (launcher) "installed - long press an app, then \"extended…\"" else "not installed - this plugin only works with the MinimalSF launcher", 14f, if (launcher) GREEN else RED)
 
         section("actions")
-        text("works without Shizuku or root", 12f, GREY, top = 2)
-        text("open in freeform - open the app in a floating window", 13f, TEXT, top = 6)
-        text("needs Shizuku or root mode", 12f, GREY, top = 14)
+        text("all need Shizuku or root mode", 12f, GREY, top = 2)
         listOf(
+            "open in freeform" to "open the app in a floating window",
             "force stop" to "close the app completely",
             "clear data" to "reset the app, like a fresh install (asks first)",
             "clear cache" to "delete the app's temporary files (root, or Shizuku started with root)",
