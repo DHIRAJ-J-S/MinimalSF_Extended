@@ -5,6 +5,7 @@
 A tiny plugin that adds force stop, clear data, freeze and more to MinimalSF's long press menu, so the launcher itself stays minimal. Install it only if you want these; without it, MinimalSF is unchanged.
 
 <a href="https://github.com/DHIRAJ-J-S/MinimalSF_Extended/releases/latest"><img src="https://raw.githubusercontent.com/Kunzisoft/Github-badge/main/get-it-on-github.png" alt="Get it on GitHub" height="54"></a>
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/DHIRAJ-J-S/MinimalSF_Extended"><img src="https://raw.githubusercontent.com/ImranR98/Obtainium/main/assets/graphics/badge_obtainium.png" alt="Get it on Obtainium" height="54"></a>
 
 [![Latest release](https://img.shields.io/github/v/release/DHIRAJ-J-S/MinimalSF_Extended?label=release)](https://github.com/DHIRAJ-J-S/MinimalSF_Extended/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
@@ -76,6 +77,13 @@ Not on the phones tested: One UI (Samsung) through Shizuku, and EvolutionX (Andr
 
 **New actions?**
 They arrive with plugin updates alone: MinimalSF reads the menu from the plugin, so you don't need a launcher update.
+
+---
+
+## 📦 Install
+
+- **Obtainium** (recommended): tap the Obtainium badge at the top on your phone, or add `https://github.com/DHIRAJ-J-S/MinimalSF_Extended` in [Obtainium](https://github.com/ImranR98/Obtainium). You get updates automatically from each new release.
+- **Direct download:** get the latest APK from [Releases](https://github.com/DHIRAJ-J-S/MinimalSF_Extended/releases/latest).
 
 ---
 
