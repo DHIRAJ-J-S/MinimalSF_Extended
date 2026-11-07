@@ -2,13 +2,12 @@ package io.github.dhiraj_j_s.minimalsf.extended
 
 import android.content.Context
 import android.os.Process
-import java.io.File
 import kotlin.system.exitProcess
 
 /**
  * Started by Shizuku in its own process, with shell rights (or root when Shizuku runs as root).
- * It only runs `am` and `pm`, with arguments passed straight through (no shell), and only after
- * [Actions] has checked them, so nothing in a package name can turn into an extra command.
+ * It only runs the exact `am` / `pm` commands [Actions.isAllowedCommand] allows, with arguments
+ * passed straight through (no shell), so nothing in a package name can turn into an extra command.
  */
 class ShellService() : IShellService.Stub() {
 
@@ -21,7 +20,7 @@ class ShellService() : IShellService.Stub() {
     }
 
     override fun run(argv: Array<String>): String {
-        if (argv.isEmpty() || argv[0] !in ALLOWED) return "1\nnot allowed"
+        if (!Actions.isAllowedCommand(argv)) return "1\nnot allowed"
         return try {
             val p = ProcessBuilder(*argv).redirectErrorStream(true).start()
             val out = p.inputStream.bufferedReader().use { it.readText() }
@@ -35,18 +34,18 @@ class ShellService() : IShellService.Stub() {
         if (!Actions.validPackage(pkg) || userId < 0) return "1\ninvalid app"
         // App data folders belong to the app's own user id; the shell user can't touch them
         if (Process.myUid() != 0) return "2\nneeds root"
-        var freed = 0L
-        listOf("/data/user/$userId/$pkg/cache", "/data/user/$userId/$pkg/code_cache",
-            "/data/media/$userId/Android/data/$pkg/cache").forEach { dir ->
-            File(dir).listFiles()?.forEach { f ->
-                freed += f.walkBottomUp().filter { it.isFile }.sumOf { it.length() }
-                f.deleteRecursively()
-            }
-        }
-        return "0\n$freed"
+        val dirs = listOf("/data/user/$userId/$pkg/cache", "/data/user/$userId/$pkg/code_cache",
+            "/data/media/$userId/Android/data/$pkg/cache")
+        // Running as root, so never follow symlinks: an app could link its cache folder (or something in
+        // it) to system files. du and find don't follow links by default, and a cache folder that is
+        // itself a link is left alone. Java's File walking would follow them.
+        val kb = exec(listOf("du", "-sk") + dirs).lines().sumOf { it.substringBefore('\t').trim().toLongOrNull() ?: 0L }
+        dirs.forEach { exec(listOf("find", it, "-mindepth", "1", "-delete")) }
+        return "0\n${kb * 1024}"
     }
 
-    private companion object {
-        val ALLOWED = setOf("am", "pm")
-    }
+    private fun exec(argv: List<String>): String = try {
+        val p = ProcessBuilder(argv).redirectErrorStream(true).start()
+        p.inputStream.bufferedReader().use { it.readText() }.also { p.waitFor() }
+    } catch (_: Exception) { "" }
 }

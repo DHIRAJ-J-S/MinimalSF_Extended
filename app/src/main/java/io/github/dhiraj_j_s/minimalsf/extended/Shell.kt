@@ -10,7 +10,7 @@ import rikka.shizuku.Shizuku
 import java.util.concurrent.Executors
 
 /** Shizuku state, and the shell service it runs for us. */
-object Shell {
+object Shell : Backend {
 
     enum class State { NOT_RUNNING, OUTDATED, NO_PERMISSION, READY }
 
@@ -72,7 +72,17 @@ object Shell {
         }
     }
 
-    fun run(argv: Array<String>, done: (Int, String) -> Unit) = call({ it.run(argv) }, done)
+    override fun run(argv: Array<String>, done: (Int, String) -> Unit) { call({ it.run(argv) }, done) }
 
-    fun clearCache(pkg: String, user: Int, done: (Int, String) -> Unit) = call({ it.clearCache(pkg, user) }, done)
+    override fun clearCache(pkg: String, user: Int, done: (Int, String) -> Unit) { call({ it.clearCache(pkg, user) }, done) }
+
+    /** Who runs commands right now: Shizuku when it's running and allowed, else root mode if it's on. */
+    fun backend(c: android.content.Context): Backend? = when {
+        state() == State.READY -> this
+        Root.enabled(c) -> Root
+        else -> null
+    }
+
+    /** True when clear cache can work: Shizuku started with root, or root mode. */
+    fun canClearCache(c: android.content.Context) = (state() == State.READY && isRoot()) || (state() != State.READY && Root.enabled(c))
 }

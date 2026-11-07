@@ -57,7 +57,8 @@ class MainActivity : Activity() {
         section("shizuku")
         when (Shell.state()) {
             Shell.State.NOT_RUNNING -> {
-                text(if (shizukuInstalled()) "not running - open Shizuku and start it" else "not installed - install Shizuku from F-Droid, GitHub or Play", 14f, RED)
+                // Any Shizuku works: the official app, a fork, or Sui. Only the button needs a known app.
+                text("not running - optional: without Shizuku or root mode only open in freeform works. start Shizuku (or a fork), or use Sui, for the rest.", 14f, RED)
                 if (shizukuInstalled()) button("open Shizuku") { openShizuku() }
             }
             Shell.State.OUTDATED -> text("too old - update Shizuku", 14f, RED)
@@ -68,17 +69,31 @@ class MainActivity : Activity() {
             Shell.State.READY -> text(if (Shell.isRoot()) "ready (root) - all actions work" else "ready (shell) - everything except clear cache, which needs root", 14f, GREEN)
         }
 
+        section("root mode")
+        val rootOn = Root.enabled(this)
+        text(if (rootOn) "on - root is used whenever Shizuku isn't running" else "off - for rooted phones without Shizuku (Magisk, KernelSU, APatch...)", 14f, if (rootOn) GREEN else TEXT)
+        button(if (rootOn) "turn off" else "turn on") {
+            if (rootOn) { Root.setEnabled(this, false); render() }
+            // Your root app asks first; root mode only turns on if it really got root
+            else Root.check { ok ->
+                if (ok) Root.setEnabled(this, true) else Toast.makeText(this, "no root access", Toast.LENGTH_SHORT).show()
+                render()
+            }
+        }
+
         section("MinimalSF")
         val launcher = installed(LAUNCHER)
         text(if (launcher) "installed - long press an app, then \"extended…\"" else "not installed - this plugin only works with the MinimalSF launcher", 14f, if (launcher) GREEN else RED)
 
         section("actions")
+        text("works without Shizuku or root", 12f, GREY, top = 2)
+        text("open in freeform - open the app in a floating window", 13f, TEXT, top = 6)
+        text("needs Shizuku or root mode", 12f, GREY, top = 14)
         listOf(
             "force stop" to "close the app completely",
             "clear data" to "reset the app, like a fresh install (asks first)",
-            "clear cache" to "delete the app's temporary files (root only)",
-            "freeze" to "disable the app without uninstalling it",
-            "open in freeform" to "open the app in a floating window"
+            "clear cache" to "delete the app's temporary files (root, or Shizuku started with root)",
+            "freeze" to "disable the app without uninstalling it"
         ).forEach { (name, what) -> text("$name - $what", 13f, TEXT, top = 6) }
 
         section("frozen apps")
@@ -90,9 +105,9 @@ class MainActivity : Activity() {
     }
 
     private fun unfreeze(e: Frozen.Entry) {
-        if (Shell.state() != Shell.State.READY) { Toast.makeText(this, "Shizuku isn't ready", Toast.LENGTH_SHORT).show(); return }
+        val backend = Shell.backend(this) ?: run { Toast.makeText(this, "start Shizuku or turn on root mode first", Toast.LENGTH_SHORT).show(); return }
         val argv = Actions.argv(Actions.UNFREEZE, e.pkg, null, e.user) ?: return
-        Shell.run(argv) { code, out ->
+        backend.run(argv) { code, out ->
             if (code == 0 && !out.contains("Error")) {
                 Frozen.remove(this, e.pkg, e.user)
                 Toast.makeText(this, "unfroze ${e.label}", Toast.LENGTH_SHORT).show()
@@ -133,6 +148,9 @@ class MainActivity : Activity() {
         setPadding(dp(16), dp(10), dp(16), dp(10))
         background = GradientDrawable().apply { setColor(Color.BLACK); setStroke(dp(1), Color.WHITE) }
         isClickable = true; isFocusable = true
+        // Ignore taps while another app draws over this screen, so it can't trick you into
+        // turning on root mode or allowing Shizuku (tapjacking)
+        filterTouchesWhenObscured = true
         setOnClickListener { onClick() }
         layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply { topMargin = dp(12) }
     }.also { content.addView(it) }
@@ -149,6 +167,7 @@ class MainActivity : Activity() {
                 text = action; textSize = 13f; setTextColor(Color.WHITE); typeface = Typeface.MONOSPACE
                 setPadding(dp(12), dp(6), dp(12), dp(6))
                 background = GradientDrawable().apply { setColor(Color.BLACK); setStroke(dp(1), GREY) }
+                filterTouchesWhenObscured = true
                 setOnClickListener { onClick() }
             })
         })

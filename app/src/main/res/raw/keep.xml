@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The action icons are only looked up by name (by MinimalSF), so resource shrinking would drop them -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/ic_window,@drawable/ic_stop,@drawable/ic_sweep,@drawable/ic_clear_data,@drawable/ic_freeze" />

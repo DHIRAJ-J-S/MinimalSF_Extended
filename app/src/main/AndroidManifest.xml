@@ -15,6 +15,7 @@
     </queries>
 
     <application
+        android:name=".App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher"
@@ -45,6 +46,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!-- The menu MinimalSF shows under "extended…"; only MinimalSF can read it -->
+        <provider
+            android:name=".ActionsProvider"
+            android:authorities="io.github.dhiraj_j_s.minimalsf.extended.actions"
+            android:exported="true"
+            android:readPermission="io.github.dhiraj_j_s.minimalsf.permission.EXTENDED"
+            android:writePermission="io.github.dhiraj_j_s.minimalsf.permission.EXTENDED" />
 
         <!-- Lets Shizuku hand us its binder -->
         <provider

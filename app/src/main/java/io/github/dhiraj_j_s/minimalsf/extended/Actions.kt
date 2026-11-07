@@ -20,6 +20,28 @@ object Actions {
     const val UNFREEZE = "unfreeze"
     const val FREEFORM = "freeform"
 
+    /**
+     * One entry in MinimalSF's "extended…" menu. MinimalSF reads these from [ActionsProvider] each time
+     * it opens the menu, so a new action only needs a plugin update. [icon] is a drawable name in this
+     * app; [confirm] (title, message, button) asks before running, with {app} replaced by the app's name.
+     */
+    class Def(val id: String, val label: String, val icon: String, val confirm: Triple<String, String, String>? = null,
+              val rootOnly: Boolean = false, val needsShizuku: Boolean = true)
+
+    /** The menu, in order. Add new actions here (and their command in [argv]). */
+    val MENU = listOf(
+        // Works without Shizuku too, through Android's own launch-in-a-window option
+        Def(FREEFORM, "open in freeform", "ic_window", needsShizuku = false),
+        Def(FORCE_STOP, "force stop", "ic_stop"),
+        Def(CLEAR_CACHE, "clear cache", "ic_sweep", rootOnly = true),
+        Def(CLEAR_DATA, "clear data", "ic_clear_data", Triple("clear data?",
+            "{app} will be reset like a fresh install: its settings, accounts and files are deleted. this can't be undone.",
+            "clear data")),
+        Def(FREEZE, "freeze", "ic_freeze", Triple("freeze {app}?",
+            "it stops running and disappears from the launcher until you unfreeze it in the MinimalSF Extended app.",
+            "freeze"))
+    )
+
     private val PACKAGE = Regex("^[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z0-9_]+)+$")
     private val CLASS = Regex("^[A-Za-z0-9_.$]+$")
 
@@ -34,6 +56,27 @@ object Actions {
     fun refusal(action: String, pkg: String): String? = when {
         action != FREEFORM && action != UNFREEZE && isProtected(pkg) -> "not allowed for this app"
         else -> null
+    }
+
+    /**
+     * True only for the exact command shapes [argv] builds, with checked values. The privileged side
+     * (ShellService in Shizuku's process, and Root) checks every command against this, so even code
+     * that somehow reached it could only force stop, clear, freeze / unfreeze or open an app.
+     */
+    fun isAllowedCommand(argv: Array<String>): Boolean {
+        val a = argv.toList()
+        fun user(i: Int) = a.getOrNull(i)?.toIntOrNull()?.let { it >= 0 && it.toString() == a[i] } == true
+        fun pkg(i: Int) = validPackage(a.getOrNull(i))
+        return when {
+            a.size == 5 && a[0] == "am" && a[1] == "force-stop" && a[2] == "--user" && user(3) && pkg(4) -> true
+            a.size == 5 && a[0] == "pm" && a[1] in setOf("clear", "disable-user", "enable") && a[2] == "--user" && user(3) && pkg(4) -> true
+            a.size == 8 && a[0] == "am" && a[1] == "start" && a[2] == "--user" && user(3) && a[4] == "--windowingMode" &&
+                a[5] == "5" && a[6] == "-n" -> {
+                val (p, cls) = a[7].split('/', limit = 2).let { it[0] to it.getOrElse(1) { "" } }
+                validPackage(p) && CLASS.matches(cls) && cls.isNotEmpty()
+            }
+            else -> false
+        }
     }
 
     /** The command for [action], or null if the request is invalid. Clear cache has no command (see ShellService). */
