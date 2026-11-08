@@ -10,7 +10,7 @@ A tiny plugin that adds force stop, clear data, freeze and more to MinimalSF's l
 [![Latest release](https://img.shields.io/github/v/release/DHIRAJ-J-S/MinimalSF_Extended?label=release)](https://github.com/DHIRAJ-J-S/MinimalSF_Extended/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 ![Android 8.0+](https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white)
-[![VirusTotal: v1.0, 0 detections](https://img.shields.io/badge/VirusTotal-v1.0%20%C2%B7%200%20detections-brightgreen?logo=virustotal&logoColor=white)](https://www.virustotal.com/gui/file/236abe8aec431c50a777f2c874a6a54a4a67f934572be2496be781046eb52d35/detection)
+[![VirusTotal: v1.1, 0 detections](https://img.shields.io/badge/VirusTotal-v1.1%20%C2%B7%200%20detections-brightgreen?logo=virustotal&logoColor=white)](https://www.virustotal.com/gui/file/7fbc6520d6b541183c1769bd011194c2b3203706dbf1c0229050f65527c94522/detection)
 
 <p>
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01_long_press.png" width="19%" alt="Long press menu with extended…">
@@ -126,5 +126,5 @@ MinimalSF and the plugin must be signed with the **same key** for them to work t
 MIT License
 ```
 You’re free to use, tweak, and build on this project.
-Have fun with it, break things, improve things 🙂
+Have fun with it, break things, improve things 😁
 ```
