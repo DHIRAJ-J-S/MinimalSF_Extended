@@ -1,1 +1,1 @@
-Force stop, clear, freeze and freeform for the MinimalSF launcher, via Shizuku
+Force stop, freeze, freeform and extra options for the MinimalSF launcher

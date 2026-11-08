@@ -1,0 +1,2 @@
+• Extended menu in MinimalSF's settings (MinimalSF 1.3.2+): choose which entries the long press menu shows, coloured app icons, hide the empty search bar, and turn off auto-launch for a single match
+• New options can arrive with plugin updates alone
