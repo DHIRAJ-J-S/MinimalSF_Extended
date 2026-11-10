@@ -87,7 +87,7 @@ Shizuku is used whenever it's running; root mode is the fallback. The menu only 
 - **Off limits:** the system, Settings, Shizuku and MinimalSF can't be stopped, cleared or frozen.
 - **No tapjacking:** buttons ignore taps while another app draws over the screen.
 - 🚫 **No internet permission**, no ads, no tracking, backups off.
-- 🧪 **Scanned on [VirusTotal](https://www.virustotal.com/gui/file/236abe8aec431c50a777f2c874a6a54a4a67f934572be2496be781046eb52d35/detection):** 0 detections (v1.0).
+- 🧪 **Scanned on [VirusTotal](https://www.virustotal.com/gui/file/7fbc6520d6b541183c1769bd011194c2b3203706dbf1c0229050f65527c94522/detection):** 0 detections (v1.1).
 
 ---
 
