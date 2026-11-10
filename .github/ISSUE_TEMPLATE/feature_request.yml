@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest a new action or option for MinimalSF Extended
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like, and why?
+      description: A new long press action, an extended menu option, or something else. Describe how you'd use it.
+    validations:
+      required: true
+  - type: dropdown
+    id: access
+    attributes:
+      label: Would it need Shizuku or root?
+      options: ["Not sure", "No", "Yes"]
+  - type: checkboxes
+    id: checked
+    attributes:
+      label: Before you post
+      options:
+        - label: I searched the existing issues, including closed ones
+          required: true

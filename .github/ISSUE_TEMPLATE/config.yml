@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: MinimalSF launcher
+    url: https://github.com/DHIRAJ-J-S/MinimalSF_Launcher/issues
+    about: Issues with the launcher itself (search, home screen, settings) go here
+  - name: Report a security problem
+    url: https://github.com/DHIRAJ-J-S/MinimalSF_Extended/security/advisories/new
+    about: Please report security problems privately, not as a public issue
