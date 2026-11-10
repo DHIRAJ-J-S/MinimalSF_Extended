@@ -8,6 +8,7 @@ A tiny plugin that adds force stop, clear data, freeze and more to MinimalSF's l
 <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/DHIRAJ-J-S/MinimalSF_Extended"><img src="https://raw.githubusercontent.com/ImranR98/Obtainium/main/assets/graphics/badge_obtainium.png" alt="Get it on Obtainium" height="54"></a>
 
 [![Latest release](https://img.shields.io/github/v/release/DHIRAJ-J-S/MinimalSF_Extended?label=release)](https://github.com/DHIRAJ-J-S/MinimalSF_Extended/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/DHIRAJ-J-S/MinimalSF_Extended/total?label=downloads)](https://github.com/DHIRAJ-J-S/MinimalSF_Extended/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 ![Android 8.0+](https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white)
 [![VirusTotal: v1.1, 0 detections](https://img.shields.io/badge/VirusTotal-v1.1%20%C2%B7%200%20detections-brightgreen?logo=virustotal&logoColor=white)](https://www.virustotal.com/gui/file/7fbc6520d6b541183c1769bd011194c2b3203706dbf1c0229050f65527c94522/detection)
