@@ -18,6 +18,7 @@ object Settings {
     private const val LONG_PRESS = "long_press"
     /** Prefix of the toggles that show or hide one of this plugin's actions in "extended…". */
     const val ACTION_PREFIX = "action_"
+    const val ACTIONS_INLINE = "actions_inline"
 
     class Row(val id: String, val parent: String, val kind: String, val label: String,
               val icon: String? = null, val default: Boolean = false)
@@ -31,7 +32,10 @@ object Settings {
         add(Row("menu_uninstall", LONG_PRESS, TOGGLE, "uninstall", default = true))
         add(Row("menu_keyword", LONG_PRESS, TOGGLE, "set keyword", default = true))
         add(Row("menu_hide", LONG_PRESS, TOGGLE, "hide from search", default = true))
-        // This plugin's actions, inside "extended…"
+        // On: the actions sit in the long press menu itself, next to app info, instead of behind
+        // "extended…" (MinimalSF 1.3.3+; older versions keep "extended…")
+        add(Row(ACTIONS_INLINE, LONG_PRESS, TOGGLE, "actions directly in this menu"))
+        // This plugin's actions, inside "extended…" or directly in the menu
         Actions.MENU.forEach { add(Row(ACTION_PREFIX + it.id, LONG_PRESS, TOGGLE, "extended · " + it.label, it.icon, default = true)) }
 
         add(Row("hide_search", "", TOGGLE, "hide empty search bar"))

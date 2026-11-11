@@ -1,0 +1,1 @@
+• New option: settings > extended menu > long press menu > actions directly in this menu. Force stop, freeze and the other actions then sit next to app info, one tap away, instead of behind "extended…" (needs MinimalSF 1.3.3+)
