@@ -46,7 +46,7 @@ In MinimalSF, **settings → extended menu** (plugin 1.1+):
 | Option | What it does |
 |---|---|
 | Long press menu | Choose which entries the long press menu shows: app shortcuts, app info, uninstall, set keyword, hide from search, and each action above |
-| Actions directly in the menu | Under long press menu: show the actions next to app info, one tap away, instead of behind **extended…** (MinimalSF 1.3.3+, [#3](https://github.com/DHIRAJ-J-S/MinimalSF_Launcher/issues/3)) |
+| Actions in the main menu | Under long press menu: pick which actions sit next to app info, one tap away; the rest stay under **extended…** (MinimalSF 1.3.3+, [#3](https://github.com/DHIRAJ-J-S/MinimalSF_Launcher/issues/3)) |
 | Hide empty search bar | The search bar stays invisible until you start typing ([#7](https://github.com/DHIRAJ-J-S/MinimalSF_Launcher/issues/7)) |
 | Coloured app icons | App icons in colour instead of black and white ([#10](https://github.com/DHIRAJ-J-S/MinimalSF_Launcher/issues/10)) |
 | Auto-launch a single match | Turn it off to show a single match as a normal row, so you can long press it ([#11](https://github.com/DHIRAJ-J-S/MinimalSF_Launcher/issues/11)) |
