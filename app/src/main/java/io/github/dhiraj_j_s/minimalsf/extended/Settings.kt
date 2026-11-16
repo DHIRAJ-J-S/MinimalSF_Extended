@@ -44,6 +44,9 @@ object Settings {
         add(Row("hide_search", "", TOGGLE, "hide empty search bar"))
         add(Row("colour_icons", "", TOGGLE, "coloured app icons"))
         add(Row("auto_launch", "", TOGGLE, "auto-launch a single match", default = true))
+        // Every app's built-in shortcuts ("new chat", "new incognito tab") in search, below apps.
+        // Saved shortcuts are always searched. MinimalSF 1.3.3+; older versions ignore it.
+        add(Row("all_shortcuts", "", TOGGLE, "apps' built-in shortcuts in search"))
         add(Row("open_plugin", "", OPEN, "open MinimalSF Extended"))
     }
 

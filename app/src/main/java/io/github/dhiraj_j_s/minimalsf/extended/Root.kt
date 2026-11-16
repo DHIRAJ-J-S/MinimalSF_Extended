@@ -32,12 +32,21 @@ object Root : Backend {
     // by Actions (letters, digits, dots, _ and $), and a quote inside one is escaped anyway.
     private fun quote(arg: String) = "'" + arg.replace("'", "'\\''") + "'"
 
-    private fun su(line: String): Pair<Int, String> = try {
-        val p = ProcessBuilder("su", "-c", line).redirectErrorStream(true).start()
-        val out = p.inputStream.bufferedReader().use { it.readText() }
-        if (!p.waitFor(20, TimeUnit.SECONDS)) { p.destroy(); -1 to "timed out" } else p.exitValue() to out.trim()
-    } catch (e: Exception) {
-        -1 to (e.message ?: "no su")
+    private const val NOT_FOUND = -2
+
+    private fun su(line: String): Pair<Int, String> {
+        // Starting fails only when there's no su to run, so the root app never saw a request
+        val p = try {
+            ProcessBuilder("su", "-c", line).redirectErrorStream(true).start()
+        } catch (e: Exception) {
+            return NOT_FOUND to "su not found"
+        }
+        return try {
+            val out = p.inputStream.bufferedReader().use { it.readText() }
+            if (!p.waitFor(20, TimeUnit.SECONDS)) { p.destroy(); -1 to "timed out" } else p.exitValue() to out.trim()
+        } catch (e: Exception) {
+            -1 to (e.message ?: "su failed")
+        }
     }
 
     private fun async(work: () -> Pair<Int, String>, done: (Int, String) -> Unit) = executor.execute {
@@ -45,8 +54,19 @@ object Root : Backend {
         main.post { done(code, out) }
     }
 
-    /** Asks for root (the root app shows its prompt) and checks it really is root. */
-    fun check(done: (Boolean) -> Unit) = async({ su("id -u") }) { code, out -> done(code == 0 && out.trim() == "0") }
+    /**
+     * Asks for root (the root app shows its prompt) and checks it really is root.
+     * [done] gets null when it worked, or a short reason it didn't.
+     */
+    fun check(done: (String?) -> Unit) = async({ su("id -u") }) { code, out ->
+        done(when {
+            code == 0 && out == "0" -> null
+            code == NOT_FOUND -> "su not found. Is your root app set up?"
+            out == "timed out" -> "no answer from your root app"
+            code == 0 -> "su didn't give root"
+            else -> "root denied" + out.lineSequence().firstOrNull { it.isNotBlank() }?.let { " ($it)" }.orEmpty()
+        })
+    }
 
     override fun run(argv: Array<String>, done: (Int, String) -> Unit) {
         if (!Actions.isAllowedCommand(argv)) { done(1, "not allowed"); return }

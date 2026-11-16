@@ -50,6 +50,7 @@ In MinimalSF, **settings → extended menu** (plugin 1.1+):
 | Hide empty search bar | The search bar stays invisible until you start typing ([#7](https://github.com/DHIRAJ-J-S/MinimalSF_Launcher/issues/7)) |
 | Coloured app icons | App icons in colour instead of black and white ([#10](https://github.com/DHIRAJ-J-S/MinimalSF_Launcher/issues/10)) |
 | Auto-launch a single match | Turn it off to show a single match as a normal row, so you can long press it ([#11](https://github.com/DHIRAJ-J-S/MinimalSF_Launcher/issues/11)) |
+| Apps' built-in shortcuts in search | Search finds every app's own shortcuts too, like WhatsApp's "new chat" or Chrome's "new incognito tab", below apps. Saved shortcuts are always searched (MinimalSF 1.3.3+, [#2](https://github.com/DHIRAJ-J-S/MinimalSF_Launcher/issues/2)) |
 | Open MinimalSF Extended | Opens this app (setup, root mode, frozen apps) |
 
 These don't need Shizuku or root. Uninstall the plugin and MinimalSF goes back to its defaults.

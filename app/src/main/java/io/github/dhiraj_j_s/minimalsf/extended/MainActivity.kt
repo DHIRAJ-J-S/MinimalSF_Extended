@@ -75,8 +75,9 @@ class MainActivity : Activity() {
         button(if (rootOn) "turn off" else "turn on") {
             if (rootOn) { Root.setEnabled(this, false); render() }
             // Your root app asks first; root mode only turns on if it really got root
-            else Root.check { ok ->
-                if (ok) Root.setEnabled(this, true) else Toast.makeText(this, "no root access", Toast.LENGTH_SHORT).show()
+            else Root.check { error ->
+                if (error == null) Root.setEnabled(this, true)
+                else Toast.makeText(this, "no root access: $error", Toast.LENGTH_LONG).show()
                 render()
             }
         }
@@ -93,6 +94,16 @@ class MainActivity : Activity() {
             "clear data" to "reset the app, like a fresh install (asks first)",
             "clear cache" to "delete the app's temporary files (root, or Shizuku started with root)",
             "freeze" to "disable the app without uninstalling it (files and data are kept)"
+        ).forEach { (name, what) -> text("$name - $what", 13f, TEXT, top = 6) }
+
+        section("options in MinimalSF")
+        text("in MinimalSF: settings → extended menu. no Shizuku needed", 12f, GREY, top = 2)
+        listOf(
+            "long press menu" to "show or hide each entry, and pick which actions sit in the main menu",
+            "hide empty search bar" to "the search bar stays invisible until you type",
+            "coloured app icons" to "icons in colour instead of black and white",
+            "auto-launch a single match" to "turn off to show a single match as a normal row",
+            "apps' built-in shortcuts in search" to "find shortcuts like \"new chat\" or \"new incognito tab\" by typing"
         ).forEach { (name, what) -> text("$name - $what", 13f, TEXT, top = 6) }
 
         section("frozen apps")
