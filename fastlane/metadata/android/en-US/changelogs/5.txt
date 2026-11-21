@@ -1,0 +1,3 @@
+- Each action on/off and in the main menu or under extended, set from MinimalSF's long press menu page (MinimalSF 1.3.4+)
+- Frozen apps listed near the top; what the plugin adds folds away
+- New clear cache icon

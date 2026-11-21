@@ -23,6 +23,7 @@ import rikka.shizuku.Shizuku
 class MainActivity : Activity() {
 
     private lateinit var content: LinearLayout
+    private var infoOpen = false
 
     private val onBinder = Shizuku.OnBinderReceivedListener { runOnUiThread { render() } }
     private val onBinderDead = Shizuku.OnBinderDeadListener { runOnUiThread { render() } }
@@ -82,35 +83,40 @@ class MainActivity : Activity() {
             }
         }
 
-        section("MinimalSF")
-        val launcher = installed(LAUNCHER)
-        text(if (launcher) "installed - long press an app, then \"extended…\"" else "not installed - this plugin only works with the MinimalSF launcher", 14f, if (launcher) GREEN else RED)
-
-        section("actions")
-        text("all need Shizuku or root mode", 12f, GREY, top = 2)
-        listOf(
-            "open in freeform" to "open the app in a floating window",
-            "force stop" to "close the app completely",
-            "clear data" to "reset the app, like a fresh install (asks first)",
-            "clear cache" to "delete the app's temporary files (root, or Shizuku started with root)",
-            "freeze" to "disable the app without uninstalling it (files and data are kept)"
-        ).forEach { (name, what) -> text("$name - $what", 13f, TEXT, top = 6) }
-
-        section("options in MinimalSF")
-        text("in MinimalSF: settings → extended menu. no Shizuku needed", 12f, GREY, top = 2)
-        listOf(
-            "long press menu" to "show or hide each entry, and pick which actions sit in the main menu",
-            "hide empty search bar" to "the search bar stays invisible until you type",
-            "coloured app icons" to "icons in colour instead of black and white",
-            "auto-launch a single match" to "turn off to show a single match as a normal row",
-            "apps' built-in shortcuts in search" to "find shortcuts like \"new chat\" or \"new incognito tab\" by typing"
-        ).forEach { (name, what) -> text("$name - $what", 13f, TEXT, top = 6) }
-
         section("frozen apps")
         val frozen = Frozen.list(this)
         if (frozen.isEmpty()) text("none - apps you freeze show up here, since they disappear from the launcher", 13f, GREY)
         frozen.forEach { e ->
             row(e.label + if (e.user != 0) " · user ${e.user}" else "", "unfreeze") { unfreeze(e) }
+        }
+
+        section("MinimalSF")
+        val launcher = installed(LAUNCHER)
+        text(if (launcher) "installed - long press an app, then \"extended…\"" else "not installed - this plugin only works with the MinimalSF launcher", 14f, if (launcher) GREEN else RED)
+
+        // What the plugin adds: folded away by default, so the status and frozen apps stay on top
+        section("what it adds")
+        text(if (infoOpen) "▾ hide" else "▸ show actions and options", 13f, Color.WHITE).apply {
+            setPadding(0, dp(4), 0, dp(8)); setOnClickListener { infoOpen = !infoOpen; render() }
+        }
+        if (infoOpen) {
+            text("actions", 12f, Color.WHITE, top = 8)
+            text("all need Shizuku or root mode", 12f, GREY, top = 2)
+            listOf(
+                "open in freeform" to "open the app in a floating window",
+                "force stop" to "close the app completely",
+                "clear data" to "reset the app, like a fresh install (asks first)",
+                "clear cache" to "delete the app's temporary files (root, or Shizuku started with root)",
+                "freeze" to "disable the app without uninstalling it (files and data are kept)"
+            ).forEach { (name, what) -> text("$name - $what", 13f, TEXT, top = 6) }
+
+            text("in MinimalSF's settings", 12f, Color.WHITE, top = 16)
+            text("settings → long press menu and extended menu. no Shizuku needed", 12f, GREY, top = 2)
+            listOf(
+                "long press menu" to "each action on or off, and in the main menu or under \"extended…\"",
+                "apps' built-in shortcuts in search" to "find shortcuts like \"new chat\" or \"new incognito tab\" by typing"
+            ).forEach { (name, what) -> text("$name - $what", 13f, TEXT, top = 6) }
+            text("coloured icons, the hidden search bar and auto-launch are now in MinimalSF itself (1.3.4+)", 12f, GREY, top = 10)
         }
     }
 
