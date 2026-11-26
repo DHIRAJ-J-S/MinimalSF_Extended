@@ -11,7 +11,7 @@ A tiny plugin that adds force stop, clear data, freeze and more to MinimalSF's l
 [![Downloads](https://img.shields.io/github/downloads/DHIRAJ-J-S/MinimalSF_Extended/total?label=downloads)](https://github.com/DHIRAJ-J-S/MinimalSF_Extended/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 ![Android 8.0+](https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white)
-[![VirusTotal: v1.2, 0 detections](https://img.shields.io/badge/VirusTotal-v1.2%20%C2%B7%200%20detections-brightgreen?logo=virustotal&logoColor=white)](https://www.virustotal.com/gui/file/2a89b10c17e527d1d64ea506556ec163d4ce2d521c7c2f68225a5a0e1fe0ab22/detection)
+[![VirusTotal: v1.2.1, 0 detections](https://img.shields.io/badge/VirusTotal-v1.2.1%20%C2%B7%200%20detections-brightgreen?logo=virustotal&logoColor=white)](https://www.virustotal.com/gui/file/50626991f6675b64d0507d0a9030614cdd8b984d2f06d15f19955f092b015950/detection)
 
 <p>
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01_long_press.png" width="19%" alt="Long press menu with extended…">
@@ -85,7 +85,7 @@ Shizuku is used whenever it's running; root mode is the fallback. The menu only 
 - **Off limits:** the system, Settings, Shizuku and MinimalSF can't be stopped, cleared or frozen.
 - **No tapjacking:** buttons ignore taps while another app draws over the screen.
 - 🚫 **No internet permission**, no ads, no tracking, backups off.
-- 🧪 **Scanned on [VirusTotal](https://www.virustotal.com/gui/file/2a89b10c17e527d1d64ea506556ec163d4ce2d521c7c2f68225a5a0e1fe0ab22/detection):** 0 detections (v1.2).
+- 🧪 **Scanned on [VirusTotal](https://www.virustotal.com/gui/file/50626991f6675b64d0507d0a9030614cdd8b984d2f06d15f19955f092b015950/detection):** 0 detections (v1.2.1).
 
 ---
 
